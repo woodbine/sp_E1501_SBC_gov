@@ -1,4 +1,3 @@
-
 # -*- coding: utf-8 -*-
 
 #### IMPORTS 1.0
@@ -9,8 +8,7 @@ import scraperwiki
 import urllib2
 from datetime import datetime
 from bs4 import BeautifulSoup
-import requests
-from dateutil.parser import parse
+
 
 #### FUNCTIONS 1.0
 
@@ -40,23 +38,25 @@ def validateFilename(filename):
 
 def validateURL(url):
     try:
-        r = requests.get(url, allow_redirects=True, timeout=20)
+        r = urllib2.urlopen(url)
         count = 1
-        while r.status_code == 500 and count < 4:
+        while r.getcode() == 500 and count < 4:
             print ("Attempt {0} - Status code: {1}. Retrying.".format(count, r.status_code))
             count += 1
-            r = requests.get(url, allow_redirects=True, timeout=20)
+            r = urllib2.urlopen(url)
         sourceFilename = r.headers.get('Content-Disposition')
+
         if sourceFilename:
             ext = os.path.splitext(sourceFilename)[1].replace('"', '').replace(';', '').replace(' ', '')
         else:
             ext = os.path.splitext(url)[1]
-        validURL = r.status_code == 200
-        validFiletype = ext in ['.csv', '.xls', '.xlsx']
+        validURL = r.getcode() == 200
+        validFiletype = ext.lower() in ['.csv', '.xls', '.xlsx']
         return validURL, validFiletype
     except:
         print ("Error validating URL.")
         return False, False
+
 
 def validate(filename, file_url):
     validFilename = validateFilename(filename)
@@ -90,16 +90,20 @@ urls = ["http://www.southend.gov.uk/downloads/download/382/our_spending_over_500
        "http://www.southend.gov.uk/downloads/download/394/our_spending_over_500_2014", "http://www.southend.gov.uk/downloads/download/535/our_spending_over_500_2015"]
 errors = 0
 data = []
+url = 'http://www.example.com'
 
 #### READ HTML 1.0
 
-for url in urls:
-     html = urllib2.urlopen(url)
-     soup = BeautifulSoup(html, 'lxml')
+
+html = urllib2.urlopen(url)
+soup = BeautifulSoup(html, 'lxml')
 
 
 #### SCRAPE DATA
 
+for url in urls:
+     html = urllib2.urlopen(url)
+     soup = BeautifulSoup(html, 'lxml')
      block = soup.find('section', 'inner-content')
      links = block.find_all('img')
      for link in links:
