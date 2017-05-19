@@ -87,8 +87,8 @@ def convert_mth_strings ( mth_string ):
 
 entity_id = "E1501_SBC_gov"
 urls = ["http://www.southend.gov.uk/downloads/download/382/our_spending_over_500_2012", "http://www.southend.gov.uk/downloads/download/383/our_spending_over_500_2013",
-       "http://www.southend.gov.uk/downloads/download/394/our_spending_over_500_2014", "http://www.southend.gov.uk/downloads/download/535/our_spending_over_500_2015", 
-       "http://www.southend.gov.uk/downloads/download/686/our_spending_over_500_2017"]
+       "http://www.southend.gov.uk/downloads/download/394/our_spending_over_500_2014", "http://www.southend.gov.uk/downloads/download/535/our_spending_over_500_2015",
+        "http://www.southend.gov.uk/downloads/download/623/our_spending_over_500_2016", "http://www.southend.gov.uk/downloads/download/686/our_spending_over_500_2017"]
 errors = 0
 data = []
 url = 'http://www.example.com'
@@ -142,4 +142,3 @@ if errors > 0:
 
 
 #### EOF
-
